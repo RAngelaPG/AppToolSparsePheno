@@ -1,0 +1,12 @@
+Package: Rindsel
+Type: Package
+Title: Phenotypic and molecular selection indices
+Version: 1.3
+Date: 2011-10-11
+Author: Sergio P<e9>rez-Elizalde and Jose Crossa
+Maintainer: Sergio P<e9>rez-Elizalde <sergiop@colpos.mx>
+Description: Functions for molecular and phenotypic selection indices commonly used in plant breeding  
+License: GPL (>= 2)
+Depends: Hmisc, lme4, MASS
+LazyLoad: yes
+Built: R 3.6.2; ; 2020-10-13 21:46:22 UTC; windows

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: A set of R functions that I find useful</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for rfunctions-package {rfunctions}"><tr><td>rfunctions-package {rfunctions}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>
+A set of R functions that I find useful
+</h2>
+
+<h3>Description</h3>
+
+<p>R functions that are useful or are fast. Most of the implementation is in C++, utilizing RcppEigen
+</p>
+
+
+<h3>Details</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Package: </td><td style="text-align: left;"> rfunctions</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Type: </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Version: </td><td style="text-align: left;"> 1.0</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Date: </td><td style="text-align: left;"> 2014-03-15</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+License: </td><td style="text-align: left;">  GPL (&gt;= 2)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Depends: </td><td style="text-align: left;"> Rcpp, RcppEigen</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p>oemfitFast is the main OEM function. It takes x and y as arguments for data and produces the regularization path over a grid of values for lambda. It accepts x as either a 'matrix' or 'sparseMatrix'
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Jared Huling
+</p>
+<p>Maintainer: Jared Huling &lt;jaredhuling [ at ] gmail [ dot ] com&gt;
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n.obs &lt;- 1e5
+n.vars &lt;- 150
+
+x &lt;- matrix(rnorm(n.obs * n.vars), n.obs, n.vars)
+
+## compute X'X
+xpx &lt;- crossprodcpp(x)
+
+weights &lt;- runif(n.obs)
+
+## compute X'WX
+xpwx &lt;- crossprodcpp(x, weights)
+
+
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rfunctions</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,5 @@
+insert_left             plot-insertion
+is.ggtree               is.ggtree
+plot_list               plot a list of ggplot objects
+xlim2                   xlim2
+yrange                  plot range of a ggplot object

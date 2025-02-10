@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Simulate a matrix with very few nonzero entries</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for simSparseMatrix {rfunctions}"><tr><td>simSparseMatrix {rfunctions}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Simulate a matrix with very few nonzero entries</h2>
+
+<h3>Description</h3>
+
+<p>Simulate a matrix with very few nonzero entries
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+simSparseMatrix(sparsity, dim, boolean = FALSE, slam = FALSE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>sparsity</code></td>
+<td>
+<p>numeric value between 0 and 1 indicating level of sparseness</p>
+</td></tr>
+<tr valign="top"><td><code>dim</code></td>
+<td>
+<p>numeric vector of length 2 indicating matrix dimensions</p>
+</td></tr>
+<tr valign="top"><td><code>boolean</code></td>
+<td>
+<p>TRUE/FALSE. if true, matrix will only take values 0 and 1</p>
+</td></tr>
+<tr valign="top"><td><code>slam</code></td>
+<td>
+<p>if TRUE, will return matrix in simple_triplet_matrix form. If FALSE, will return SparseMatrix object</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>SparseMatrix or simple_triplet_matrix
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n.obs &lt;- 1e5
+n.vars &lt;- 1e3
+
+#simulate a very sparse matrix (this matrix has many zeros and few ones)
+x.sparse &lt;- simSparseMatrix(sparsity = 0.99, dim = c(n.obs, n.vars), boolean = T)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rfunctions</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

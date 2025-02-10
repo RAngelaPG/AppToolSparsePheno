@@ -1,0 +1,27 @@
+Package: rfunctions
+Type: Package
+Title: Useful R Functions
+Version: 0.1
+Date: 2014-03-15
+Author: Jared Huling <jaredhuling@gmail.com>
+Maintainer: Jared Huling <jaredhuling@gmail.com>
+Description: R functions that are useful or are fast. Most of the implementation
+    is in C++, utilizing RcppEigen
+License: GPL-3
+Depends: Rcpp (>= 0.10.2), RcppEigen (>= 0.3.2.1.1), Matrix, methods
+LinkingTo: Rcpp, RcppEigen, BH, bigmemory
+RoxygenNote: 5.0.1
+RemoteType: github
+RemoteHost: api.github.com
+RemoteRepo: rfunctions
+RemoteUsername: jaredhuling
+RemoteRef: HEAD
+RemoteSha: ee118166ce4b31b871e4c1d4e7fc35518098423a
+GithubRepo: rfunctions
+GithubUsername: jaredhuling
+GithubRef: HEAD
+GithubSHA1: ee118166ce4b31b871e4c1d4e7fc35518098423a
+NeedsCompilation: yes
+Packaged: 2021-05-24 16:40:53 UTC; RAPACHECO
+Built: R 3.6.2; x86_64-w64-mingw32; 2021-05-24 16:40:54 UTC; windows
+Archs: i386, x64

@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Lande and Thompson selection index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for LTIndex {Rindsel}"><tr><td>LTIndex {Rindsel}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Lande and Thompson selection index</h2>
+
+<h3>Description</h3>
+
+<p>Funtion for the Lande and Thompson selection index
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+LTIndex(file.dat = NULL, weights = NULL, selval = 5, design = "lattice", 
+corr = FALSE, out = "out.txt", outcsv = "out.csv", rawdata = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file.dat</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format which contains the traits (columns) for entries (rows).</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format whose columns are: names of the traits, indicator variable for selected traits, economic weights or signs of the traits and indicator variable for restricted traits. If no name of the file is given, the file is choosen interactively.</p>
+</td></tr>
+<tr valign="top"><td><code>selval</code></td>
+<td>
+<p>Percent of selected genotypes (5, 10, 20). Default is selval=5.</p>
+</td></tr> 
+<tr valign="top"><td><code>design</code></td>
+<td>
+<p>Field design (&quot;lattice&quot;, &quot;rcb&quot;). Default is design=&quot;lattice&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>corr</code></td>
+<td>
+<p>Selection index is based on variances-covariances matrix (FALSE) or correlation matrix (TRUE). Default is corr=FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>out</code></td>
+<td>
+<p>Output file name. Default is out=&quot;out.txt&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>outcsv</code></td>
+<td>
+<p>Output file in format *.csv. Default is outcsv=&quot;outcsv.csv&quot;. The file named &quot;alloutcsv.csv&quot; is generated, which contains the values of the traits and the LT selection index for all the individuals.</p>
+</td></tr>
+<tr valign="top"><td><code>rawdata</code></td>
+<td>
+<p>If genotypic and photypic variances are already calculated, then it can be used to calculate directly the index by setting rawdat=TRUE. Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Lande and Thompson (1990) established the theoretical basis of the 
+molecular marker-assisted selection (Molecular Marker Assisted 
+Selection or MAS) for quantitative trait selection 
+using computer simulation studies. Considerations 
+Additional theoretical contributed more fully to 
+understanding of fundamental aspects regarding the development of MAS 
+population type, size \~n or sample and number of markers 
+molecular (MM) required in MAS (Zhang and Smith 1992). 
+</p>
+<p>The procedure of Lande and Thompson (1990) is based on a 
+selection index which combines information 
+with phenotypic information from the  of loci 
+quantitative characters (Quantitative Trait Loci <b>,</b> or QTL) associated with the MM. This is because 
+it is not possible to identify all QTL affecting the nature of 
+interest (Li, 1998), that is, unless all the QTLs affecting 
+phenotypic variables of interest are identified, MAS 
+phenotypic information should be combined with the effects 
+of the QTL associated with MM, also known MQTL effects for 
+ensure the efficiency of selection (Dekkers and Settar, 2004). In the 
+construction of selection index Lande and Thompson (1990) 
+requires: (1) identify the linkage between the GM and the QTL on a map 
+of MMs, (2) estimate the effects MQTLs, and (3) combined with the effects MQTLs 
+phenotypic information to classify individuals by 
+a selection index, and subsequently develop 
+lines, varieties or populations of interest. The effects MQTLs 
+can be identified and estimated based on linkage disequilibrium 
+created by crossing inbred lines or divergent populations 
+(Jansen, 2003). 
+</p>
+<p>As an illustrative example, assume that in the maize genome 
+has a linkage map with ten molecular markers and the 
+interest lies in enhancing the improvement of plant height; 
+Suppose also that five QTLs with additive effects <i> &alpha;_1 
+ </i> , <i> &alpha;_2 </i> ,..., <i> &alpha;_5 </i>  have been identified in the genome 
+associated with plant height and that the five QTLs are distributed 
+at random from different chromosomes, ie, a QTL was found by 
+chromosome. In practice, the idea of Lande and Thompson (1990) is 
+to build a record (or score) by multiplying the values additives of the
+QTLs for the coded values of molecular markers (MM) to 
+they are bound, <i> ie </i> , <i> s = x_1 &alpha;_1 + x_2 &alpha;_2 + ... + x_5 &alpha;_5 
+ </i> , Where <i>x_i</i> , <i>i = 1,2, ..., </i> 5, denotes the coded values of the MM, 
+which depend on the type of population that is used for 
+selection in a population <i>F_2</i> the possible values <i>x_i</i> 
+are 1, 0 and -1. In this situation, the IS is constructed as 
+</p>
+<p style="text-align: center;"><i> 
+Y_{LT}=&beta;_p p + &beta;_s s 
+</i></p>
+ 
+<p>where <i> p </i> denotes the height of plant, <i>s=x_1 &alpha;_1 + x_2 &alpha;_2 
++ ... + x_5 &alpha;_5 </i>  and what is desired is to maximize the correlation between 
+<i> Y_{LT} </i> and <i> Z = &theta;_p g_p </i> . In this case the vector can be shown that 
+that maximizes the correlation between <i>Y_{LT} </i> y <i>Z=&theta; _p g_p </i> is 
+<i>beta_{LT} =T^{-1}K&theta;_{LT} </i>, 
+where <i>&beta; '_{LT} =[&beta; '&amp; &beta;'_s </i>, 
+<i>&theta;'_{LT} =[-1 &amp; 0 ]</i>, <br />
+</p>
+<p>T=                                      
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>&sigma; _p^2 </i>   </td><td style="text-align: center;">   <i>&sigma; _s^2 </i></td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+<i>&sigma; _s^2 </i>   </td><td style="text-align: center;">   <i>&sigma; _s^2 </i></td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+<p>K=                                      
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>&sigma; _g^2 </i>   </td><td style="text-align: center;">   <i>&sigma; _s^2 </i></td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+<i>&sigma; _s^2 </i>   </td><td style="text-align: center;">   <i>&sigma; _s^2 </i></td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+<p>where <i>&sigma; _p^2 </i> is the phenotypic variance, 
+<i> &sigma;_g^2 </i> is the genotypic variance and <i>&sigma;_s^2 </i> is the 
+variance of <i>s=x_1 &alpha; _1 +x_2 &alpha; _2 +...+x_5 &alpha; _5 </i>.
+</p>
+<p>The case is considered more of a character is straightforward and 
+All that changes is the size of the matrix <i>T</i> and 
+<i>K</i>.
+</p>
+
+
+<h3>Value</h3>
+
+<p>The LT selection index and an output file which contains the selected entries and other useful information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#library(Rindsel)
+#data(TRAIT_GSI)
+#data(WEIGHTS_GSI)
+#data(MARKERS_GSI)
+#data(QTL_GSI)
+
+#LTIndex(file.dat = TRAIT_GSI,weights=WEIGHTS_GSI,markers=MARKERS_GSI,qtl=QTL_GSI)
+#T
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Rindsel</em> version 1.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

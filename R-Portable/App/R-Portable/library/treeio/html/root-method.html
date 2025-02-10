@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: root</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for root.phylo {treeio}"><tr><td>root.phylo {treeio}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>root</h2>
+
+<h3>Description</h3>
+
+<p>re-root a tree
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S3 method for class 'phylo'
+root(phy, outgroup, node = NULL, resolve.root = TRUE, ...)
+
+## S3 method for class 'treedata'
+root(phy, outgroup, node = NULL, resolve.root = TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>phy</code></td>
+<td>
+<p>tree object</p>
+</td></tr>
+<tr valign="top"><td><code>outgroup</code></td>
+<td>
+<p>a vector of mode numeric or character specifying the new outgroup</p>
+</td></tr>
+<tr valign="top"><td><code>node</code></td>
+<td>
+<p>node to reroot</p>
+</td></tr>
+<tr valign="top"><td><code>resolve.root</code></td>
+<td>
+<p>a logical specifying whether to resolve the new root as a bifurcating node</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>additional parameters passed to ape::root.phylo</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>rerooted tree
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Guangchuang Yu
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>treeio</em> version 1.12.0 <a href="00Index.html">Index</a>]</div>
+</body></html>

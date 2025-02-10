@@ -1,0 +1,18 @@
+ESIMIndex               Eiegen Selection Index Method (ESIM).
+GESIMIndex              Genomic Eiegen Selection Index Method.
+KNGSIIndex              Restrictive Kempthorne & Nordskog Genomic
+                        Selection Index (KNGSI).
+KNIndex                 Restrictive Kempthorne & Nordskog selection
+                        index
+LTIndex                 Lande and Thompson selection index
+MESIMIndex              Molecular eigen selection index method
+RESIMIndex              Restrictive eigen selection index method
+RGESIMIndex             Restrictive Genomic Eiegen Selection Index
+                        Method (RGESIM).
+Rindsel-package         R package for Selection Indices
+SGSIIndex               Smith Genomic Selection Index
+SmithIndex              Smith Selection Index
+TGESIMIndex             Tallis predetermined proportional gains Eiegen
+                        Selection Index Method (TGESIM).
+TGSIIndex               Tallis predetermined proportional gains Genomic
+                        Selection Index (TGSI).

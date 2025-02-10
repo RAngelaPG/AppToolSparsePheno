@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Eiegen Selection Index Method (ESIM).</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for ESIMIndex {Rindsel}"><tr><td>ESIMIndex {Rindsel}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Eiegen Selection Index Method (ESIM). 
+</h2>
+
+<h3>Description</h3>
+
+<p>This function estimates the selection index by the Eiegen Selection Index Method (ESIM).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+ESIMIndex(file.dat = NULL, weights = NULL, selval = 5, design = "lattice", 
+corr = FALSE, out = "out.txt", outcsv = "out.csv", rawdata = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file.dat</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format which contains the traits (columns) for entries (rows)</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format whose columns are: names of the traits, indicator variable for selected traits, economic weights or signs of the traits and indicator variable for restricted traits. If no name of the file is given, the file is choosen interactively.</p>
+</td></tr>
+<tr valign="top"><td><code>selval</code></td>
+<td>
+<p>Percent of selected genotypes (5, 10, 20). Default is selval=5.</p>
+</td></tr> 
+<tr valign="top"><td><code>design</code></td>
+<td>
+<p>Field design (&quot;lattice&quot;, &quot;rcb&quot;). Default is design=&quot;lattice&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>corr</code></td>
+<td>
+<p>Selection index is based on variances-covariances matrix (FALSE) or correlation matrix (TRUE). Default is corr=FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>out</code></td>
+<td>
+<p>Output file name. Default is out=&quot;out.txt&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>outcsv</code></td>
+<td>
+<p>Output file in format *.csv. Default is outcsv=&quot;outcsv.csv&quot;. The file named &quot;alloutcsv.csv&quot; is generated, which contains the values of the traits and the ESIM selection index for all the individuals.</p>
+</td></tr>
+<tr valign="top"><td><code>rawdata</code></td>
+<td>
+<p>If genotypic and photypic variances are already calculated, then it can be used to calculate directly the index by setting rawdat=TRUE. Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The eigen selection index method (or MESIM for its acronym in English) is 
+a selection method based on the IS Smith (1936) in which 
+uses the theory of singular value decomposition (DS) to estimate 
+the vector <i>&beta;</i> that maximizes the correlation <i>&rho;_{ZY}</i>.
+In this case the first eigenvector elements (<i>&beta;</i>) of <i>{P} ^{-1}{G}</i> determine the 
+proportion to each character contributes to IS <i>Y ={&beta;}'p</i> , also the first eigenvalue of 
+<i> {P} ^{-1}{G }</i> is used in the response to selection, such 
+IS was proposed by Ceron-Rojas et al. (2008a, 2008b). 
+</p>
+<p>MESIM theory is directly related to the theory 
+of the canonical correlations in which, according to Muirhead 
+(2005), when a set of variables may be divided so 
+natural two subsets of random variables, and what you want is 
+maximize the correlation between the two subsets of 
+variables, canonical correlation analysis is very efficient. 
+Consider the set of phenotypic variables (<i>p</i>) 
+and the set of genotypic variables (<i>g</i>) in the context 
+the improvement of plant and animal, in this case must be, 
+indeed, the vector of phenotypic variables, <i>p</i> , and 
+the vector of genotypic variables, <i>g</i> , belong, 
+naturally, two sets of variables. Analysis 
+canonical correlations reduces the correlation between <i>p</i> and 
+<i>g</i> to its simplest form by linear transformations of 
+<i>p</i> and <i>g</i> , ie 
+<i> Y=&beta;'p</i> and <i>Z={&theta;'g}</i> . 
+</p>
+<p>Using a concept similar to that of Kempthorne and Nordskog (1959), 
+Ceron-Rojas et al. (2008a, 2008b) maximized the response to selection 
+(Equation 2) to maximize <i> &rho;_{YZ}^2 </i> . Note that the variances 
+<i>Y=&beta;'p</i> and <i>Z={&theta;'g}</i> are constant 
+each selection cycle, therefore, the selection of genotypes 
+can be done using <i>Y=&beta;'p</i> or <i> Y/&radic;{{&beta;'}{P&beta;}}</i> . 
+Because of this, by maximizing <i> &rho;_{YZ}^2 </i> is possible to introduce the constraints 
+<i>&beta;'P &beta;=</i> 1 and <i>&theta;'G &theta;=</i> 1 so that in MESIM is 
+necessary to maximize 
+</p>
+<p style="text-align: center;"><i>&Phi; = (&theta;'G &beta;)^2 - &mu;  (&beta;'P &beta; -1 ) - &omega;  (&theta;'G &theta; -1 )</i></p>
+
+<p>with respect to <i>&beta;</i> , <i>&theta;</i> , <i> &mu; </i> , and 
+<i> &omega; </i> , where <i>&beta;</i> is the vector of coefficients 
+<i> Y=&beta;'p </i> , <i>&theta;</i> is the vector coefficients 
+of <i>Z =&theta;'g</i> , and <i> &mu; </i> and <i> &omega; </i> are multipliers 
+Lagrange. In MESIM the values of <i>&theta; </i> does not necessarily 
+economic weights. 
+</p>
+<p>When <i> &Phi; </i> is derived with respect to <i>&beta;</i> and <i>&theta; </i>
+And the result is equal to zero vector, we have 
+</p>
+<p style="text-align: center;"><i> 
+(&theta; 'G &beta;) ^ 2 
+G&theta; - &mu;P&beta; = 0 
+</i></p>
+ 
+<p style="text-align: center;"><i> 
+(&theta; 'G &beta;) ^ 2 
+G &beta; - &omega;G &theta; =0 
+</i></p>
+
+<p>By the constraints <i>&beta;'P &beta;=1 </i> and <i>&theta;'G &theta;=1</i> ,
+when the last equation  is multiplied by <i>&beta;'</i> and the next equation is multiplied by 
+<i>&theta;'</i> ,the result is <i>({&theta;}'G &beta;)^2 = &omega;= &mu; </i>.
+Therefore, <i> &mu; </i> maximizes <i>&rho;_{YZ}^2</i> under the constraints 
+<i>&beta;'P &beta; =1 </i> and <i>&theta;'G &theta;=</i> 1 
+</p>
+<p>The next problem is to determine the vector <i>&beta; </i> that 
+allows building the IS <i>Y =&beta;'p</i> that has maximum 
+correlation with <i>Z=&theta;'g </i> . According to 
+Ceron-Rojas et al. (2008a, 2008b), the <i> &beta; </i> required is the 
+solution to the following equation 
+</p>
+<p style="text-align: center;"><i> 
+( Q - &mu; I)&beta; = 0,</i></p>
+ 
+<p>where <i> Q= P ^{-1} G </i> . Thus, in MESIM , 
+the value that maximizes <i>&rho;_{YZ}^2 </i> under the constraints 
+<i> &beta;'P &beta;=1 </i> and <i> &theta;'G &theta;=1 </i> is the 
+first eigenvalue ( <i> &mu;) </i> matrix <i> Q </i> , and the vector 
+allows to construct <i>Y=&beta;'p </i> (with maximum correlation 
+with <i> Z=&theta;'g </i>) is the first eigenvector ( <i> &beta;</i> 
+)  Matrix <i>Q</i> 
+</p>
+
+
+<h3>Value</h3>
+
+<p>The ESIM selection index and an output file which contains the selected entries and other useful information.
+</p>
+
+
+<h3>References</h3>
+
+<p>Ceron-Rojas, J.J., J. Sahagun-Castellanos, F. Castillo-Gonzalez, and A. Santacruz-Varela, 2006. A selection index method based on eigen analysis. Crop Science 46: 1711-1721.<br />
+Ceron-Rojas, J.J., J. Sahagun-Castellanos, F. Castillo-Gonzalez, A. Santacruz-Varela and J. Crossa, 2008. A restricted selection index method based on eigenanalysis. Journal of Agricultural, Biological, and Environmental Statistics 13: 449-457
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#library(Rindsel)
+#data(MARKERS_GSI)
+#data(TRAIT_GSI)
+#data(WEIGHTS_GSI)
+#ESIMIndex(TRAIT_GSI,WEIGHTS_GSI)
+#T
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Rindsel</em> version 1.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

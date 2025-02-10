@@ -1,0 +1,457 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: R package for Selection Indices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for Rindsel-package {Rindsel}"><tr><td>Rindsel-package {Rindsel}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>R package for Selection Indices</h2>
+
+<h3>Description</h3>
+
+<p>Estimation of marker effects for use in genomic selection and mate allocation.
+</p>
+
+
+<h3>Details</h3>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+Package:  </td><td style="text-align: left;"> Rindsel</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Type:     </td><td style="text-align: left;"> Package</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Version:  </td><td style="text-align: left;"> 1.3</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+Date:     </td><td style="text-align: left;"> 09.05.2013</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+License:  </td><td style="text-align: left;"> GPL (version 2 or later)</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+LazyLoad: </td><td style="text-align: left;"> yes</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+  </td>
+</tr>
+
+</table>
+
+<p>The following functions can be used for the estimation of Genomic Selection Index(GSI):
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<a href="ESIM.html">ESIMIndex</a>:           </td><td style="text-align: left;"> Eiegen Selection Index Method (ESIM).</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="KNIndex.html">KNIndex</a>:           </td><td style="text-align: left;"> Restrictive Kempthorne &amp; Nordskog selection index.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="LTIndex.html">LTIndex</a>:           </td><td style="text-align: left;"> Lande and Thompson selection index.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="MESIM.html">MESIMIndex</a>: </td><td style="text-align: left;"> Molecular eigen selection index method.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="RESIMIndex.html">RESIMIndex</a>: </td><td style="text-align: left;"> Restrictive eigen selection index method.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="SmithIndex.html">SmithIndex</a>: </td><td style="text-align: left;"> Smith Selection Index</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: left;">
+<a href="KNGSIIndex.html">KNGSIIndex</a>:           </td><td style="text-align: left;"> Restrictive Kempthorne &amp; Nordskog Genomic Selection Index.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="RGESIMIndex.html">RGESIMIndex</a>:           </td><td style="text-align: left;"> Restrictive Genomic  Eiegen Selection Index Method.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="TGSIIndex.html">TGSIIndex</a>:           </td><td style="text-align: left;"> Tallis predetermined proportional gains Genomic Selection Index.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="TGESIMIndex.html">TGESIMIndex</a>:           </td><td style="text-align: left;"> Tallis predetermined proportional gains  Eiegen Selection Index Method.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="GESIMIndex.html">GESIMIndex</a>:           </td><td style="text-align: left;"> Genomic Eiegen Selection Index Method.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+<a href="SGSIIndex.html">SGSIIndex</a>:           </td><td style="text-align: left;"> Smith Genomic Selection Index.</td>
+</tr>
+<tr>
+ <td style="text-align: left;">
+</td>
+</tr>
+
+</table>
+
+<p><b>Statistical Metodology</b><br />
+Ceron-Rojas and Crossa (2011) made a detailed presentation of a multitrait GEBV method to obtain the 
+statistical properties and its sample, also defined the genomic selection index (GSI). Here is a brief
+summary of this approach; next it is exposed the Mallard approximation (1972), and finally the
+coeficients of the predetermined proportional genomic gains and restricted selection indices are derived.
+<br />
+<b>Breeding values within a multi-trait context</b><br />
+Consider a base population with genotypes and markers in the univariate context, the vector of breeding values (a) can be defined as
+<i>a=Xu~MVN(0,XX'*sigma_{u}^{2}</i>, where <i>X=x_{ij}</i>
+<i>(i=1,...,g;j=1,...,m)</i> is a matrix of marker covariables, <i>x_{ij}</i>, which could be 1, 0 or -1 for a bi-allelic genotypic codominant markers of an 
+<i>F_2</i> segregating population or 1 and -1 for a double haploid (DH) population of inbred lines;
+<i>u~MVN(0,I_m*sigma_{u}^{2}</i>is a vector <i>mx1</i> of the genotypic marker effects,
+<i>I_m</i> is an identity matrix of order <i>mxm</i>, <i>sigma_{u}^{2}</i> is a constant variance for each marker effect, and
+<i>XX'*sigma_{u}^{2}=A*sigma_{A}^{2}</i>,
+, where <b>A</b> is the numerical relationship matrix of order <i>gxg</i>, and <i>sigma_{A}^{2}</i> is the additive genetic variance. The relationship between matrices <i>AA'</i> and <b>A</b> is
+<i>E(XX')=alpha A+B</i>
+(Habier et al., 2007), where <i>alpha</i> is a scalar and <i>B</i> is a matrix that depends on the marker allelic frequencies, and <i>E(XX')</i> is the expected value of matrix <i>XX'</i>; the difference <i>alpha^{-1}XX'-alpha^{-1}B=Phi</i> is called genomic relationship matrix.
+</p>
+<p>Within a multi-trait context, the vector of breeding values (a) can be defined as <i>a=Zu</i>,
+where <i>a=[a_{1}',a_{2}'...a_{t}'~MVN(0,U%x% I_{m})]</i> is a <i>(txg)x1</i>
+vector of <i>t</i> subvectors of breeding values of the <i>g</i> candidate for selection for <i>t</i> traits, <i>Z=I_t %x% X</i>
+is a block diagonal matrix <i>(txg)x(txm)</i> of marker covariables, <b>G</b>
+is the genetic covariance matrix; <i>I_m</i>, <i>Phi</i> and <i>X</i> were already defined for a
+single trait, <i>I_t</i> is an identity matrix of order <i>txt</i>; 
+<i>u'=[u_{1}',u_{2}'...u_{t}'~ MVN(0,U%x%I_{m})]</i> is a <i>(txm)x1</i>
+vector of <i>t</i> subvectors of the <i>m</i> genotypic marker effects for <i>t</i> traits, and <i>U</i> is a variance-covariance <i>txt</i>
+matrix of <i>u</i>; <i>%x%</i> denotes the Kronecker product.<br />
+</p>
+<p><b>Computing the GEBV within a multi-trait context</b><br />
+Suppose that the covariance for any pair of phenotypic means for traits
+<i>q^{th}</i> and <i>q^{'th}</i> <i>(q, q'=1,2,...,t)</i> is 
+<i>Cov(y_{q},y_{q'})=XX'*sigma_{u_{qq'}}+I_{g}*sigma_{e_{qq'}}</i>, where 
+<i>sigma_{u_{qq'}}</i> and <i>sigma_{e_{qq'}}</i> are constant covariances of each 
+genotypic marker effect and the covariance of the residual effects for traits <i>q^{th}</i> and <i>q^{'th}</i>, respectively, the multi-trait model for predicting the breeding values of the <i>g</i> genotypes
+</p>
+<p>candidates for selection is
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>y=Zu+epsilon</i>
+</td>
+</tr>
+
+</table>
+
+<p>where <i>y'=[y_{1}',y_{2}'...y_{t}']~MVN(0,G%x% Phi +R x I_{g})</i> is a 
+is a <i>(txg)x1</i> vector of <i>t</i> subvectors of phenotypic 
+means of the <i>g</i> genotypes; <i>Var(y)=G%x% Phi+R%x% I_{g}=V</i> is the variance-covariances 
+</p>
+<p>matrix of <i>y</i>; <i>G,Phi,u</i> and <i>Z</i> were already defined; <i>epsilon'=[e_{1}',e_{2}'...e_{t}']~ MVN(0,R%x%I_{g})</i> 
+is a vector <i>(txg)x1</i> of <i>t</i> subvectors of residuals for the <i>t</i> traits of interest, 
+<i>R</i> is a variance-covariance matrix <i>tx t</i> of residual values of <i>t</i> traits, 
+<i>I_{g}</i> is an identity matrix of order <i>gxg</i>. In this case <i>epsilon</i> is independent of <i>u</i>
+but the covariance between <i>e_{q}</i> and <i>e_{q'}</i>, and the covariance between <i>u_{q}</i> and 
+<i>u_{q'}</i> <i>(q,q'=1,2,...,t)</i> are not zero, i.e., <i>Cov(u_{q},u_{q'})=I_{m}*sigma_{qq'}</i>.
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>hat{a}=E(a/y)=(G%x%Phi)V^{-}y</i>
+</td>
+</tr>
+
+</table>
+
+<p>where <i>hat{a}'=[hat{a}_{1}'hat{a}_{2}'...hat{a}_{t}']</i> is a <i>(txg)x1</i> 
+vector of <i>t</i> subvectors of GEBV of the <i>g</i> candidate for selection for <i>t</i> traits; 
+<i>E(a/y)</i> is the expected conditional vector of breeding values, 
+<i>a'=[a_{1}'a_{2}'...a_{t}']</i>, giving <i>t</i> subvectors of phenotypic means, <i>y</i>; 
+<i>Cov(a,y)=G%x%Phi</i> is the variance covariances matrix of <i>a</i> and <i>y</i>; matrix 
+<i>V^{-}</i> is a generalized inverse of <i>V</i>; <i>I_{g},I_{t},V,G</i> and <i>&Phi;</i> were already defined.
+<br />
+</p>
+<p><b>Genomic selection index (GSI)</b><br />
+To develop the proportional and restricted genomic selection indices,
+it is necessary first to redefine the PSI in the context of genomic selection. The PSI, 
+<i>I_{y}=&sum;^{t}_{q=1} B_{q}y_{q}</i> is a linear combination of the mean phenotypic values of the traits 
+of interest <i>(y_{q})</i>; in genomic selection, Ceron-Rojas and Crossa (2011) defined the genomic selection 
+index as a linear combination of the GEBV of the <i>t</i> traits of interest using the vector 
+<i>hat{a}'=[hat{a}_{1}'hat{a}_{2}'...hat{a}_{t}']</i>, i.e.,
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>I_{m}=&sum;^{t}_{q=1} B_{q}hat{a}_{q}</i>
+</td>
+</tr>
+
+</table>
+
+<p>where <i>B'=[B_{1}'B_{2}'...B_{t}']</i> denotes the proportion which the GEBV of the candidate for selection for 
+<i>t</i> traits contributes to the genomic selection index. The difference between a PSI and a GSI is that 
+<i>y'=y_{1}y_{2}...y_{t}</i> is replaced by <i>hat{a}'=[hat{a}_{1}' hat{a}_{2}' ... hat{a}_{t}']</i>.
+</p>
+<p>It is possible to denote the net genetic merit or breeding value of the individual candidates for selection 
+as <i>&theta;'g</i>, where <i>g'=[g_{1} g_{2} ...g_{t}]</i> is a vector of breeding values for 
+<i>t</i> traits and <i>&theta;'=[&theta;_{1} &theta;_{2} ...&theta;_{t}]</i> is a vector of economic 
+weight; the response to the <i>GSI(R_{I_{M}})</i> is
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>
+R_{I_{M}}=k&sigma;_{H}{&theta;'&Gamma;&beta;}/{&radic;{&theta;'G&theta;}&radic;{&beta;'&Gamma;&beta;}}=k&sigma;_{H}
+&rho;_{HI_{M}}
+</i>
+</td>
+</tr>
+
+</table>
+
+<p>where <i>k</i> is the standardized selection differential, <i>&sigma;_{h}^{2}=&theta; G &theta;</i> 
+is the variance of <i>&sigma;_{I_{M}}^{2}=&beta;'&Gamma;&beta;</i>, is the variance of <i>I_{M}</i>, 
+<i>Cov(I_{M},H)=&theta;'&Gamma;&beta;</i>, and <i>&rho;_{HI_{M}}</i> are the covariance and the correlation 
+between <i>I_{M}</i> and <i>H</i>, respectively; <i>G</i> is the genetic variance-covariance matrix, and 
+<i>&Gamma;</i> is the variance-covariance means matrix of the GEBV for <i>t</i> traits.
+In the following developments we extend the theory of Mallard (1972) and the approach proposed in 
+Ceron-Rojas et al. (2008a)and Ceron-Rojas and Crossa (2011) for the proportional and restricted genomic case.
+<br />
+</p>
+<p><b>Restrictions on the Genomic Selection Indices</b><br />
+The proportional and restricted genomic selection indices exposition in the present work follows the Mallard (1972) 
+and Itoh and Yamada (1987) ideas and it is shown that this approximation comprises the remaining SI 
+except the Ceron-Rojas et al. (2008a) approximate, which is based on the canonical correlations.
+<br />
+<br />
+<b>Mallard Approximation to the Predetermined and Proportional Gains Selection Indices</b><br />
+Kempthorne and Nordskog (1959) maximized the square of the correlation between the genetic merit net and 
+PSI under the constraint <i>W'GB=0</i>, where <i>W</i> is a matrix of 1's and 0's, <i>B</i> is the vector 
+of coefficients of PSI and G is the matrix of genetic variances and covariances. Number 1 in the matrix 
+indicates that the expected genetic advance in that trait is zero and 0 indicates that the trait is not restricted.
+</p>
+<p>Tallis (1985) got the predetermined and proportional gains selection index by minimizing the variance 
+of the difference  between PSI and the genetic merit net under the constraint <i>W'GB=&tau; c</i>, where 
+<i>&tau;</i> is the coefficient of proportionality, <i>c'=[c_{1} c_{2} ... c_{r}]</i> is the vector 
+of proportional restrictions imposed by the breeder, and <i>r</i> is the number of constraints. The result 
+of Tallis (1985) is equivalent to Harville (1975) who maximized the correlation between genetic merit net 
+and PSI under the above restriction.
+Mallard (1972) showed that under the condition <i>C'c=0</i>,  restrictions
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>
+C'W'GB=0
+</i>
+</td>
+</tr>
+
+</table>
+
+<p>link RPSI with the predetermined and proportional gains PSI. Meanwhile, Itoh and Yamada (1987) 
+have shown that the matrix <i>C</i> is not unique and that any matrix that satisfies the condition 
+is permissible. One such matrix is <br />
+</p>
+<p><i>C'=</i>
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+c_r </td><td style="text-align: center;"> 0 </td><td style="text-align: center;"> ... </td><td style="text-align: center;"> 0 </td><td style="text-align: center;"> -c_1 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+0 </td><td style="text-align: center;"> c_r </td><td style="text-align: center;"> ... </td><td style="text-align: center;"> 0 </td><td style="text-align: center;"> -c_2 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+... </td><td style="text-align: center;"> ... </td><td style="text-align: center;"> ... </td><td style="text-align: center;"> ... </td><td style="text-align: center;"> ... </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+0 </td><td style="text-align: center;"> 0 </td><td style="text-align: center;"> ... </td><td style="text-align: center;"> c_r </td><td style="text-align: center;"> -c_r-1 </td>
+</tr>
+<tr>
+ <td style="text-align: center;">
+</td>
+</tr>
+
+</table>
+
+<p>Matriz <i>C'</i> is <i>(r-1)x r</i> order and range <i>(r-1)</i>, and <i>c_{p}(p=1,2,...,r)</i>
+is the <i>p^{th}</i> element of the vector of proportional constraints, <i>c'=[c_1 c_2 ... c_r]</i>, imposed by the breeder.<br />
+</p>
+<p><b>Using Mallard approximation for the restricted and proportional genomic selection indices</b>
+According to Ceron-Rojas and Crossa (2011), the expected genetic advance in the GSI is 
+<i>&Delta; bar{g}_{M}=k{&Gamma;&beta;}/{&radic;{&beta;'&Gamma;&beta;}}</i>, where <i>k</i> 
+is the selection intensity, <i>&Gamma;</i> is the average matrix of variances and covariances of the GEBV and 
+<i>&beta;</i> is the vector of coefficients of GSI. Under the condition of Mallard (1972), 
+<i>C'c=0</i>, one way to obtain the coefficient vector is minimizing the TGSI of the variance of 
+the difference between the net genetic merit <i>H=&theta; 'g</i> of the candidate selection and GSI 
+<i>(I_{m}=&sum;^{t}_{q=1} &beta;_{q} hat{a}_{q})</i>, <i>Var(I_{M}-H)</i>, ie, it is necessary to minimize
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>
+&Psi; =Var(I_{M}-H)+2v'C'W'&Gamma;&beta;
+</i>
+</td>
+</tr>
+
+</table>
+
+<p>respect to <i>&beta;</i> and <i>v</i>, where <i>v'=[v_1 v_2 ... v_{r-1}]</i> 
+is a vector of Lagrange multipliers. From where, <br />
+<i>B=[I-WC(C'W'*Gamma W)^{-1}W'*Gamma]*theta</i> <br />
+</p>
+<p>is the vector of coefficients of TGSI, which is similar to PSI of Tallis (1985). When <i>C=I</i>
+<i>beta=[I-W(W'Gamma W)^{-1}W'Gamma]*theta</i><br />
+</p>
+<p>is the vector of coeficientes of KN GSI similar to RPSI of Kempthorne and Nordskog (1959), 
+and when <i>C=I</i> and <i>W</i> is a null matrix, <i>&beta;=0</i>, i.e., <i>&beta;</i> 
+is the coefficient vector of Smith GSI without any restriction(Ceron-Rojas and Crossa, 2011).
+Furthermore, if the correlation <i>&rho;_{HI_{M}}</i> is maximized in the context of canonical correlation 
+(Ceron-Rojas et al., 2008 a and b; Cer\'on-Rojas and Crossa, 2011) under the Mallard (1972) condition, 
+<i>C'c=0</i>, i.e., deriving
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>&Psi;=&theta;'&Gamma;&beta;-0.5&lambda;(&beta;'&Gamma;&beta;-1)-0.5&mu;(&theta;'G&theta;-1)-v'C'W'&Gamma;&beta;</i>
+</td>
+</tr>
+
+</table>
+
+<p>respect to <i>&beta;, &theta;, v, &lambda;</i> and <i>&mu;</i> are Lagrange multipliers, the result is
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>(Q-&lambda; I)&beta;=0</i>
+</td>
+</tr>
+
+</table>
+
+<p>where <i>Q=[I-WC(C'W'&Gamma; WC)^{-1}C'W'&Gamma;]G^{-1}&Gamma;</i> and <i>&lambda;=&rho;^{2}_{HI_{M}}</i>. 
+In this case, <i>&beta;</i> is the vector of coefficients TGESIM similar to TGSI, and when <i>C=I</i>, 
+<i>Q=[I-W(W'&Gamma; W)^{-1}W'&Gamma;]G^{-1}&Gamma;</i>, and in the case <i>&beta;</i> is the vector of coefficients 
+RGESIM similar to KN GSI; when <i>C=I</i> and <i>W</i> is a null matrix, <i>Q=G^{-1}&Gamma;</i>, and in such 
+case has the genomic eigen selection index method (GESIM) of Ceron-Rojas and Crossa (2011). Thus, for 
+restricted and proportional change in GESIM (RGESIM and TGESIM), the value that maximizes <i>&rho;_{HI_{M}}</i> 
+is the square root of the first eigenvalue <i>&lambda;)</i> of matrix <i>Q</i>, and the vector that allows 
+constructing <i>I_{M}</i> (with maximum correlation to <i>H</i>) is the first eigenvector of matrix 
+<i>Q(&beta;)</i>; the value of <i>&beta;</i> depends on the context in which it is estimated.<br />
+</p>
+<p><b>The weights of RGESIM and TGESIM</b><br />
+Note that the vector of coefficients, <i>&beta;</i>, RGESIM and TGESIM don't incorporate economic weights; 
+this makes selection difficult as important economic traits may have smaller weights in the eigenvector 
+than less important ones, for this reason, Ceron-Rojas and Crossa (2011) proposed a method to modify 
+the proportion given by the eigenvector throughout a linear transformation of <i>&beta;</i>.
+In accordance with Ceron-Rojas and Crossa (2011), an equivalent way to write Eq.(7) is
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>(DQD^{-1}-&lambda; I)b=0 (8)</i>
+</td>
+</tr>
+
+</table>
+
+<p>Where <i>b=d&beta;</i> is a linear transformation of <i>&beta;</i> and <i>D=d_{1} d_{2} ... d_{t}</i> 
+is a diagonal matrix of weights of <i>&beta;</i>. In this case <i>b</i> incorporates into the RGESIM and 
+TGESIM information on the breeding values through matrix <i>G</i>, and information on the GEBV variances 
+and covariances through matrix <i>&Gamma;</i>; also, matrix <i>D</i> allows modifying the proportions of 
+<i>B</i> according to the researchers interest in the traits. Similar to Eqn (7), the value that maximizes 
+<i>&rho;_{{HI}_{M}}</i> in Eqn (8) is the first eigenvalue (<i>&lambda;</i>) of matrix <i>DQD^{-1}</i>, which is not 
+affected by matrix <i>D</i> (Wilkinson, 1965), and the vector that allows constructing (with maximum 
+correlation to H) is the first eigenvalue <i>(&lambda;)</i> of matrix <i>DQD^{-1}</i>, which is not affected by 
+matrix <i>D</i> (Wilkinson, 1965), and the vector that allows constructing (with maximum correlation to H) is 
+the first eigenvector of matrix <i>DQD^{-1} (1)</i>, which is indeed affected by <i>D</i>. 
+When <i>D</i> is an identity matrix, then Eqns (7) and (8) are the same.
+Ceron-Rojas and Crossa (2011) showed how to construct a matrix <i>D</i> such that when vector <i>&beta;</i> 
+is transformed, vector <i>b</i> will preserve the required proportions for each trait. Note that
+the equality <i>d&beta;=b</i> can be written as
+</p>
+
+<table summary="Rd table">
+<tr>
+ <td style="text-align: center;">
+<i>DD_{&beta;}=D_{b}</i>
+</td>
+</tr>
+
+</table>
+
+<p>where <i>D_{&beta;}=&beta;_{1} &beta;_{2} ... &beta;_{t}</i> and 
+<i>D_{b}=b_{1} b_{2} ... b_{t}</i> are diagonal matrices with elements of the vectors 
+<i>&beta;</i> and <i>b</i>; then 
+<i>D=D_{b}D_{&beta;}^{-1}=&beta;_{q}^{-1}b_q=D_{&beta;}^{-1}D_{b}</i>, 
+<i>q=1,2,...,t</i>, is a diagonal matrix with <i>&beta;_{q}^{-1}b_q</i> as the <i>q^{th}</i> element, i.e., 
+<i>d_q=&beta;_{q}^{-1}b_q</i>. The values of <i>b</i> are unknowns and must be given by the researcher. 
+One way to provide values to the elements of <i>b</i> is by multiplying matrix <i>D_{&beta;}</i> 
+by a diagonal matrix, <i>D_{c}=({c_{1} c_{2} ... c_{t})}</i>, where, <i>c_{q}</i>, 
+<i>q=1,2,...,t</i>, is the <i>{q^{th}}</i> value assigned. Thus let <i>D_{b}D_{&beta;^{-1}}=D_{c}</i>, then 
+<i>D_{b}=D_{c}D_{&beta;}</i>, from where <i>D=D_{&beta;}^{-1}D_{c}D_{&beta;}</i> and thus matrix <i>DQD^{-1}</i> 
+of Eqn (8) is equal to <i>D_{&beta;}^{-1}D_{c}D_{&beta;}QD_{&beta;}^{-1}D_{c}^{-1}D_{&beta;}</i>.
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Sergio Perez-Elizalde and Jose Crossa
+Alejandro I. Aguirre-Salado
+Maintainer: Sergio Perez-Elizalde &lt;sergiop@colpos.mx&gt;
+</p>
+
+
+<h3>References</h3>
+
+<p>Ceron-Rojas, J.J., J. Sahagún-Castellanos, F. Castillo-Gonzalez, and A. Santacruz-Varela, 2006. A selection index method based on eigenanalysis. Crop Science 46: 1711-1721.<br />
+Ceron-Rojas, J.J., J. Sahagún-Castellanos, F. Castillo-Gonzalez, A. Santacruz-Varela and J. Crossa, 2008. A restricted selection index method based on eigenanalysis. Journal of Agricultural, Biological, and Environmental Statistics 13: 449-457.<br />
+Cunningham, M. D., Mace, J. W., and Peters, E. R. (1969).Clinical experience with phenobarbitone in icterus neonatorum. Lancet, 1, 550.<br />
+Bulmer, M. G. 1986. Sex ratio theory in geographically structured populations. Heredity, 56, 69-73.<br />
+Hazel, L.N. 1943 The genetic basis for constructing selection indexes. Genetics 28, 476.<br />
+Jansen RC. Studying complex biological systems using multifactorial perturbation. Nat Rev Genet 2003, 4: 145-151.<br />
+Kempthorne, O., and A. W. Nordskog, 1959. Restricted selection indices. Biometrics 15: 10-19.<br />
+Lande, R., and R. Thompson, 1990. Efficiency of marker-assisted in the improvement of quantitative traits. Genetics 124: 743-756.<br />
+Li Z 1998. Molecular analysis of epistasis affecting complex traits. In: Paterson AH (ed) Molecular dissection of complex traits. CRC Press, Boca Raton, pp 119-130<br />
+Muirhead, R. J., 2005. Aspects of Multivariate Statistical Theory, John Wiley and Sons, New York.<br />
+Smith, H. F., 1936. A discriminant function for plant selection, In: Papers on Quantitative Genetics and Related Topics. Deparment of Genetics, North Carolina State College,Raleigh, North Carolina, pp. 466-476.
+</p>
+
+<hr /><div style="text-align: center;">[Package <em>Rindsel</em> version 1.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

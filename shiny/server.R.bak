@@ -1,0 +1,252 @@
+  
+server <- function(input,output,session) {
+
+  if (!interactive()) {
+    session$onSessionEnded(function() {
+      stopApp()
+      q("no")
+    })
+  }
+  
+  
+  ###Sidebar menu#########################################################################################################################
+  output$menu <- renderMenu({
+    sidebarMenu(
+      menuItem(tagList(img(src="adelpng.png",height="18"),
+                       span("Sparse Phenotyping",title="Create experimental design, in order to make field books and map fields.")),tabName="gsparced"
+      )
+     )    
+  })
+    
+  ######SPARCE PHENO###########################################################################################################################
+  shinyFileChoose(input, 'filegensparced', roots = getVolumes(), filetypes=c('', 'csv'))
+  verGen<-reactive({
+  inFilegensparce=parseFilePaths(roots=getVolumes(), input$filegensparced)
+        validate(
+			need(nrow(inFilegensparce) != 0, "Please select input genotype file")			
+		)
+		return(inFilegensparce$name)
+  })
+  
+  DoforSPP<-reactive({
+	inDirspp=parseFilePaths(roots=getVolumes(), input$filegensparced)
+	if(nrow(inDirspp) == 0){
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="rowMfinal")
+	}
+	validate(
+			need(nrow(inDirspp) != 0, "Please select input genotype file")
+		)
+	Dirname=str_replace(inDirspp$datapath,inDirspp$name,"")
+	fileinputname=str_replace(as.character(parseFilePaths(roots=getVolumes(), input$filegensparced)$name),".csv","")
+	if(input$nameoutfile=="default"){
+		namef=paste(Dirname,fileinputname,"_",input$selSets,"_SparseDesignOutput",sep="")
+	}else{
+		namef=paste(Dirname,input$nameoutfile,".xlsx",sep="")
+	}
+	
+	dataSPP=read.csv(as.character(inDirspp$datapath),header=T)
+	if (input$Smsparced==99999){Sm=NULL} else{Sm=input$Smsparced}
+	if (input$Rsparced==99999){R=NULL}else {R=input$Rsparced}
+	if (input$PIsparced==99999) {P=NULL}else{P=input$PIsparced}
+	if (input$Kmsparced==99999){Km=NULL} else {Km=input$Kmsparced}
+	
+	if (!is.null(R) && R<2){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")
+		validate("Number of replicates must be bigger than 1")
+	}
+	if (!is.null(P) && P>=100){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")		
+		validate("Percent of saving must be values between 2-99")
+	}
+	if (!is.null(Km) && Km<2){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")
+		validate("Number of Sites for unreplicated sets must be bigger than 1")
+	}
+	
+	if (!is.null(Sm) && Sm<3){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")
+		validate("Number of Sites must be bigger than 2")
+	}
+	
+	if (!is.null(Km) && !is.null(Sm) && Km>Sm){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")		
+		validate(paste("Number of Sites for unreplicated sets must be smaller than ",Sm,sep=""))
+	}	
+	
+	if (input$PbSsparced==99999){PbS=NULL} else {PbS=input$PbSsparced}
+	if (input$Bsparced==99999){Bopt=NULL} else {Bopt=input$Bsparced}
+	if (input$Colsparced==99999){colsNopt=NULL} else {colsNopt=input$Colsparced}
+	if (input$Rowsparced==99999){rowsNopt=NULL} else {rowsNopt=input$Rowsparced}
+	
+	if (!is.null(PbS) && !is.null(Bopt) && (PbS%%Bopt)!=0){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")		
+		validate(paste("Plots by site: ",PbS," must be divisible by block size: ",Bopt,sep=""))
+	}	
+	
+	if (!is.null(PbS) && !is.null(colsNopt) && !is.null(rowsNopt) && (colsNopt*rowsNopt)!=PbS){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")		
+		validate(paste("The product of cols*rows must be equal to number of plots per site: ",PbS,sep=""))
+	}	
+	
+		
+	ver=forOptions(dataSPP,Sm,Km,R,P,input$selSets,PbS,Bopt,colsNopt,rowsNopt)
+	verm=ver[[1]]			
+	nver=dim(verm)[1]
+	if (nver==0){
+		shinyjs::hide(id="getdsparced")
+		shinyjs::hide(id="labrc")
+		shinyjs::hide(id="rowMfinal")		
+	}
+    validate(
+		need(nver!=0,"Is not possible to conform a design")
+	)		
+	
+	H=round(verm[1,8]/verm[1,1])
+	fileup=verGen()	
+	optfile=paste(Dirname,fileinputname,"_",input$selSets,"_SparseDesignOptions.csv",sep="")
+	names(verm)=c('No. of Replicates', 'No. of Sites', 'No. of Sites for unreplicated sets','No. of Sets','No. of Checks per site','Set size 1','Set size 2,...,q','No. of plots per site','No. of Genotypes + Checks per site','Total of plots in experiment','Total genotypes in experiment','Percent of saving','Block size','Columns in the field','Rows in the field','No. blocks per site')
+	vermtmp=verm[,c(1:13,16,14,15)]
+	write.csv(vermtmp[,-11],optfile)
+	return(list(verm,nver,verm[1,4],verm[1,6],verm[1,7],verm[1,9],verm[1,13],verm[1,14],verm[1,15],namef,ver[[3]],ver[[2]],verm[1,8],ver[[4]],verm[1,5],H,ver[[5]],fileup,optfile))
+  })
+  
+  DoforCheck<-reactive({ 
+        Nn=DoforSPP()[[16]]
+		Nm=length(unique(DoforSPP()[[11]]$GID))
+		if (Nn<=Nm & dim(DoforSPP()[[11]])[1]>=DoforSPP()[[15]] & dim(DoforSPP()[[1]])[1]>=input$rowMfinal){
+			shinyjs::show(id="getdsparced")
+			shinyjs::show(id="labrc")
+			shinyjs::show(id="rowMfinal")
+		}else{
+			shinyjs::hide(id="getdsparced")						
+		}
+		validate(
+			need(dim(DoforSPP()[[11]])[1]>=DoforSPP()[[15]], paste("Not enougth checks names in the input file, we need ",DoforSPP()[[15]],", and there are ",dim(DoforSPP()[[11]])[1],". Please!, go to the input file and add ",(dim(DoforSPP()[[11]])[1]-DoforSPP()[[15]])," checks or change the design.",sep="")),
+			need(Nn<=Nm, paste("Not enougth genotype names in the input file, we need ",Nn,", and there are ",Nm,". Please!, go to the input file and add ",(Nn-Nm)," genotypes or change the design.",sep="")),
+			need(dim(DoforSPP()[[1]])[1]>=input$rowMfinal, "Select a row available from the summary table for create a design")
+		)				
+		
+	return(Nn)
+  })
+  
+  output$warnOpti<-renderText({
+	verGen()
+	n=DoforCheck()	
+	HTML(paste0("<font color=\"#FF0000\"><b> ","AVAILABLE", "</b></font>","<font size=\"4pt\"><br>", "You can find the table with the options for available design in:","</br></font>","<font color=\"#FF0000\"><b>",DoforSPP()[[19]],"</b></font>"))
+	})
+  
+  output$tabsparced<- DT::renderDataTable({
+    finalt=DoforSPP()[[1]][,c(1:13,16,14,15)]
+	finalt=finalt[,-c(10,11)]
+	#finalt=DoforSPP()[[1]] #,'Total of plots in experiment','Total Genotypes in experiment'
+	names(finalt)=c('No. of Replicates', 'No. of Sites', 'No. of Sites for unreplicated sets', 'No. of Sets','No. of Checks per site','Set size 1','Set size 2,...,q','No. of plots per site','No. of Genotypes + Checks per site','Percent of saving','Block size','No. blocks per site','Columns in the field','Rows in the field')
+    datatable(finalt, options = list(scrollX = TRUE),
+              callback = JS("var tips = ['','Number of Replicates', 'Number of Sites', 'Number of Sites for unreplicated sets', 'Number of Sets', 'No. of Checks per site','Size of set 1','Size of set 2,...,q','Number of plots per site','Number of Genotypes + Checks per site','Percent of saving','Block size','No. blocks per site','Number of columns in the field','Number of rows in the field'],
+                            firstRow = $('#tabsparced thead tr th');
+                            for (var i = 0; i < tips.length; i++) {
+                              $(firstRow[i]).attr('title', tips[i]);
+                            }"))
+  }) 
+    	
+  GetSPP<-eventReactive(input$getdsparced, {  
+	rowsel=input$rowMfinal
+	SelMat=DoforSPP()[[1]]	
+	Sm=SelMat[rowsel,2]
+	Km=SelMat[rowsel,3]
+	Q=SelMat[rowsel,4]
+	Z1=SelMat[rowsel,6]
+	Z2_q=SelMat[rowsel,7]
+	N=SelMat[rowsel,9]
+	B=SelMat[rowsel,13]
+	PbS=SelMat[rowsel,8]
+	TP=SelMat[rowsel,10]
+	P=SelMat[rowsel,12]
+	namef=DoforSPP()[[10]]
+	dataCc=DoforSPP()[[12]]
+	dataNCc=DoforSPP()[[11]]
+	ng=DoforSPP()[[14]]
+	C=SelMat[rowsel,5]	
+	N=SelMat[rowsel,9]
+	Nrows=SelMat[rowsel,15]
+	Ncols=SelMat[rowsel,14]
+	R=SelMat[rowsel,1]
+	namef=paste(namef,"_RowSel",rowsel,".xlsx",sep="")
+	
+	sumd1=as.data.frame(rbind(c("Uploaded file: ", toString(DoforSPP()[[18]])),c("Number of groups: ", toString(ng)),c("Genotypes in each group: ", toString(DoforSPP()[[17]])),
+							 c("Total plots in Design: ",toString(TP)),c("Percent of saving: ", toString(P)),
+							 c("Construct sets by: ",input$selSets), c("Number of sets: ", toString(Q)),
+							 c("Set 1 size: ", toString(Z1)),c(paste("Set 2 to ",Q," size: ",sep=""), toString(Z2_q)),c("Genotypes per site: ", toString(N-C)),
+							 c("Checks to add per site: ", toString(C)),c("Plots per site: ",toString(PbS)),
+							 c("Block size: ", toString(B)),c("Columns in field: ",toString(Ncols)),
+							 c("Rows in field: ", toString(Nrows))
+							 ))                             
+	names(sumd1)=c("Summary","options selected")
+	
+	withProgress(message = 'Getting...', value = 0,{
+		incProgress(1/2, detail = "Wait, Please!")
+				disable("getdsparced")
+				disable("filegensparced")
+				disable("Smsparced")
+				disable("Kmsparced")
+				disable("Rsparced")
+				disable("PIsparced")
+				disable("selSets")
+				disable("Colsparced")
+				disable("Rowsparced")
+				disable("Bsparced")
+				disable("nameoutfile")
+				disable("PbSsparced")
+				if(input$selSets=="Balanced Sets"){
+					gendsg=genSPPSB(Nrows,Ncols,PbS,Sm,Km,dataCc,C,dataNCc,Z1,ng,Z2_q,Q,B,N,R,namef,sumd1)
+				}else{
+					gendsg=genSPPGB(Nrows,Ncols,PbS,Sm,Km,dataCc,C,dataNCc,Z1,ng,Z2_q,Q,B,N,R,namef,sumd1)
+				}
+				enable("getdsparced")
+				enable("filegensparced")
+				enable("Smsparced")
+				enable("Kmsparced")
+				enable("Rsparced")
+				enable("PIsparced")
+				enable("selSets")
+				enable("Colsparced")
+				enable("Rowsparced")
+				enable("Bsparced")
+				enable("nameoutfile")
+				enable("PbSsparced")
+		incProgress(1, detail = "Finish")
+		Sys.sleep(1)
+		})		
+	return(list(namef,gendsg,rowsel))
+  })
+  
+  output$defaultsparced=renderText({ 
+    #verGen()
+	DoforCheck()
+	DoforSPP()
+	GetSPP()
+	if(GetSPP()[[2]]=="yes"){
+		HTML(paste0("<font color=\"#FF0000\"><b> ","DONE DESIGN!! for row options: ",GetSPP()[[3]], "</b></font>","<font size=\"4pt\"><br>","You can find results files in:","</br></font>","<font color=\"#FF0000\"><b>",GetSPP()[[1]],"</b></font>"))
+	} else{
+      HTML(paste0("<font color=\"#FF0000\"><b> ","SOME ERRORS WHERE FOUND", "</b></font>"))
+    }
+	
+  })
+  
+#cierra server  
+}

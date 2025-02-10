@@ -1,0 +1,241 @@
+library(shiny)
+library(shinyBS)
+library(shinyFiles)
+library(shinyjs)
+library(shinyWidgets)
+library(shinydashboard)
+library(shinydashboardPlus)
+library(plotly)   
+library(ggplot2)
+library(htmlwidgets)
+library(DT)
+library(stringr)
+library(ggtree)
+library(shinyalert)
+
+
+source("local/CodeR2Excel.R")
+source("local/getSPPGB.R")
+source("local/AlfaDRA.R")
+source("local/DivisorsFun.R")
+source("local/sugSPP.R")
+source("local/getSPPSB.R")
+
+radioTooltip <- function(id, choice, title, placement = "bottom", trigger = "hover", options = NULL){
+
+  options = shinyBS:::buildTooltipOrPopoverOptionsList(title, placement, trigger, options)
+  options = paste0("{'", paste(names(options), options, sep = "': '", collapse = "', '"), "'}")
+  bsTag <- shiny::tags$script(shiny::HTML(paste0("
+    $(document).ready(function() {
+      setTimeout(function() {
+        $('input', $('#", id, "')).each(function(){
+          if(this.getAttribute('value') == '", choice, "') {
+            opts = $.extend(", options, ", {html: true});
+            $(this.parentElement).tooltip('destroy');
+            $(this.parentElement).tooltip(opts);
+          }
+        })
+      }, 500)
+    });
+  ")))
+  htmltools::attachDependencies(bsTag, shinyBS:::shinyBSDep)
+}
+
+body<-dashboardBody(
+  ###################################################################################################################################################  
+  ##################################################################################################################################################  
+  tabItems(    
+###################################################################################################################################################  
+###################################################################################################################################################  
+tabItem(tabName="gsparced",
+        useShinyjs(),
+		shinyBS:::shinyBSDep,
+		
+		    box(solidHeader = TRUE,width=NULL,title = tagList(img(src="adelpng.png",height="25"),"Select options"),status = "success",            
+			
+			fluidRow(
+			column(12,boxPad(color="gray", 
+			descriptionBlock(header = div("",style="font-size:15pt; font-family:Arial;color:red"), text = "", rightBorder = FALSE, marginBottom = TRUE),
+			column(3,
+			div(id="but1_div",
+			strong(id="labfile",span("Input genotype file",style="font-size:150%; font-family:Arial;" )),
+			tags$br(),
+			shinyFilesButton('filegensparced', 'Load file', 'Select file',FALSE),
+            bsTooltip(id="labfile",title='Provide csv file. In the first column (GID) a unique genotype ID infomation, example: GID, mGID, Pedigree, Name, etc. In the second one (Role) put "Genotype" or "Check" depend of the role. In the third (Group) predefined groups to balance in the design, example: cross, family, adaptation, cycle length, etc. In the other columns you can include any other information about genotypes like stockID, information not in ID column, origin, selection history, etc.',placement="bottom", trigger="hover"))
+			),
+			column(3,div(textInput("nameoutfile","Output file name","default"),style="font-size:150%; font-family:Arial;" )),
+			
+			bsTooltip(id = "PIsparced", title="Percentage of the number of plots reduced per site. If you put 99999 you can obtain available options automatically from 5-75%",placement="left", trigger="hover"),
+			bsTooltip(id = "Rsparced", title="If you put 99999 you can obtain available options automatically for to 2-3 reps",placement="left", trigger="hover"),
+			bsTooltip(id = "Smsparced", title="If you put 99999 you can obtain available options automatically for 3-10 Sites",placement="rigth", trigger="hover"),
+			bsTooltip(id = "Kmsparced", title="If you put 99999 you can obtain available options automatically for 2-9 Sites",placement="left", trigger="hover"),
+			
+			bsTooltip(id = "Colsparced", title="If you put 99999 you can obtain available options automatically accord to the other options",placement="left", trigger="hover"),
+			bsTooltip(id = "Rowsparced", title="If you put 99999 you can obtain available options automatically accord to the other options",placement="left", trigger="hover"),
+			bsTooltip(id = "Bsparced", title="If you put 99999 you can obtain available options automatically accord to the other options",placement="left", trigger="hover"),
+			bsTooltip(id = "PbSsparced", title="If you put 99999 you can obtain available options automatically accord to the other options",placement="rigth", trigger="hover"),
+			
+			div(radioButtons("selSets",
+             label="Select how to construct the sets",
+             choices=list("Balanced Sets","Balanced Groups"),
+             selected="Balanced Sets"),style="font-size:150%; font-family:Arial;" ),
+			radioTooltip(id = "selSets", choice = "Balanced Sets", title = "Genotypes in one group are distributed across different sets.", placement = "right", trigger = "hover"),
+			radioTooltip(id = "selSets", choice = "Balanced Groups", title = "Genotypes in one group are all allocated in one set.", placement = "right", trigger = "hover")
+			))
+			),
+			tags$br(),
+			tags$br(),
+			fluidRow(
+			column(12,boxPad(color="white",
+			descriptionBlock(header = div("OPTIONAL PARAMETERS",style="font-size:14pt; font-family:Arial"), text = "",rightBorder = FALSE, marginBottom = TRUE),			
+			column(3,div(numericInput("Smsparced","Number of Sites",value=99999),style="font-size:150%; font-family:Arial" )),
+			column(3,div(numericInput("Kmsparced","Number of Sites for unreplicated sets",value=99999),style="font-size:100%; font-family:Arial" )),
+			column(3,div(numericInput("Rsparced","Number of Replicates",value=99999),style="font-size:150%; font-family:Arial" )),
+			column(3,div(numericInput("PIsparced","Percent of saving",value=99999),style="font-size:150%; font-family:Arial" )),
+			column(3,div(numericInput("PbSsparced","Plots by site",value=99999),style="font-size:150%; font-family:Arial" )),
+			column(3,div(numericInput("Bsparced","Block size",value=99999),style="font-size:150%; font-family:Arial" )),
+			column(3,div(numericInput("Colsparced","Number of cols in field",value=99999),style="font-size:150%; font-family:Arial" )),
+			column(3,div(numericInput("Rowsparced","Number of rows in field",value=99999),style="font-size:150%; font-family:Arial" ))
+			))
+			),
+			
+			div(id="def_div",
+				p("Some definitions: ",style = "font-size:13pt;color:blue"),
+			    p(span("* SET: a group of genotypes to be tested in the same sites. Set 1 usually is tested in all sites and always is balanced while sets 2 to q are tested in a few number of sites.",style = "float:left; color:blue")),
+				p(span("* GROUP: a group of genotypes with similar characteristics that can be tested in the same sites to increase precision of the comparison between them or can be distributed across sets to balance the set composition.", style = "float:left; color:blue"))
+				)
+			    
+			#div(id="def_div",
+			#    p(id="ladef",span("Some definitions", style = "float:left; color:red")),
+			#    bsTooltip(id = "ladef", title="SET: a group of genotypes to be tested in the same sites. Set 1 usually is tested in all sites while sets 2 to X are tested in a few number of sites. GROUP: a group of genotypes with similar characteristics that can be tested in the same sites to increase precision of the comparison between them or can be distributed across sets to balance the set composition.",placement="left", trigger="hover")
+			#)
+			 
+			 ),
+		
+		    box(solidHeader = T, width=NULL,title=tagList(img(src="adelpng.png",height="25"),"Summary options for available design"),status = "success",  
+			DT::dataTableOutput("tabsparced")
+            #tableOutput(outputId = "tabsparced")
+		),
+		
+		
+		
+		box(solidHeader = T, width=NULL, title=tagList(img(src="adelpng.png",height="25"),"Options for get design"),status = "success", 
+			p(id="labrc","Choose the row options for available design from the summary options table",style = "font-size:16pt"),
+			numericInput("rowMfinal","Number of row table",value=1),
+			tags$hr(),
+			htmlOutput(outputId = "warnOpti"),
+			tags$hr(),
+			actionButton("getdsparced", "Get design",style="color: #fff; background-color: #400080; border-color: #400080")
+		),
+		box(solidHeader = T, width=NULL, title=tagList(img(src="adelpng.png",height="25"),"Warnings"),status = "success",  
+                div(style = "height:325px; overflow-y: scroll",htmlOutput(outputId = "defaultsparced"))
+        ),
+		
+		
+		
+)
+###################################################################################################################################################  
+################################################################################################################################################### 
+
+)
+)
+
+notificationItemWithAttr <- function(text, icon = shiny::icon("warning"), status = "success", href = NULL, ...) {
+  if (is.null(href)) 
+    href <- "#"
+    icon <- tagAppendAttributes(icon, class = paste0("text-", status))
+    tags$li(a(href = href, icon, text, ...))
+}
+#class="logo-lg"
+ui <- dashboardPagePlus(skin = "green",title="BSU-CIMMYT",
+                        dashboardHeaderPlus(
+                           title =tagList(
+                                       span(class="logo-lg","BSU"), 
+                                       img(src = "Allicon.png",style= 'margin-left:-10px', height="40")
+                                  ),
+                          tags$li(class = "dropdown",  
+                                  img(src='BSUlogo.jpg',style= 'margin-right:25px',width="120",height="40"),
+                                  img(src='logocimmyt.png',style= 'margin-right:50px',width="200",height="50")
+                          ),
+                          dropdownMenu(
+                            type = "notifications", 
+                            icon = icon("question-circle"),
+                            badgeStatus = NULL,
+                            headerText = "See Manuals:",
+                            notificationItemWithAttr("Manual", icon = icon("file"),
+                                             href = "",target = "_blank")
+                          )
+                        ),
+                        dashboardSidebar(
+                          sidebarMenuOutput("menu")
+                        ),
+                        body,
+                        tags$head(
+                          tags$img(src='cenefa.png',height='100',width='1900'),
+                          tags$style(HTML(' /* logo */
+                                          .skin-green .main-header .logo {
+                                          font-family: "Georgia", Times, "Times New Roman", serif;
+                                          font-weight: bold;
+                                          font-size: 24px;
+                                          } 
+                                           /* main sidebar */
+                                           .skin-green .main-sidebar {
+                                           background-color: #0b6b21;
+                                           font-family: "Georgia",Times,"Times New Roman", serif;
+                                           font-weight: bold;
+                                           font-size: 15px;
+                                           }
+                                          /* active selected tab in the sidebarmenu */
+                                           .skin-green .main-sidebar .sidebar .sidebar-menu .active a{
+                                          background-color: #400080;
+                                          } 
+                                          
+                                          /* other links in the sidebarmenu when hovered */
+                                          .skin-green .main-sidebar .sidebar .sidebar-menu a:hover{
+                                          background-color: #6600cd;
+                                          }
+                                          .shiny-notification {
+                                          background-color: #0b6b21;
+                                          color: white;
+                                          font-size: 20px;
+                                          font-style: bold;
+                                          }
+										  .content-wrapper {background-color:#E4E7E4;}
+										  .skin-green .left-side, .skin-green .wrapper {
+                                           background-color: #E4E7E4;
+                                           }
+										   
+										   .box.box-solid.box-success>.box-header {
+											color:#fff;
+											background:#77BC1F;
+											}
+											
+											#but1_div .tooltip {
+												width: 300px;
+											}
+											
+											#def_div .tooltip {
+												width: 300px;
+											}
+											
+											.tooltip > .tooltip-inner {
+												background-color: #400080;
+												color: white;
+												font-size: 15px;
+											}
+											
+											.box.box-solid.box-success{
+												border-bottom-color:#77BC1F;
+												border-left-color:#77BC1F;
+												border-right-color:#77BC1F;
+												border-top-color:#77BC1F;
+												}
+										.shiny-output-error-validation {
+										color: #ff0000;
+										font-weight: bold;
+										font-size: 18px;
+										}										
+									  ')
+                                     )
+                          )
+)

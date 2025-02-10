@@ -1,0 +1,8 @@
+useDynLib(rfunctions)
+import(RcppEigen)
+importFrom(Rcpp, evalCpp)
+exportPattern("^[[:alpha:]]+")
+exportMethods(
+    "add",
+    "subtract" 
+)

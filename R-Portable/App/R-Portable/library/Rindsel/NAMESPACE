@@ -1,0 +1,1 @@
+export(Adjcovs,adjmeans,CovMol,data_initialization,BLPSI,PPGLPSI,ESIMIndex,fCovariances,gCovariances,GEBV,geCovariances,GenRel,GESIMIndex,IndCoef,IndexName,KNGSIIndex,KNIndex,LGSI,LTIndex,Means,MESIMIndex,Read,ReadMarkers,ReadQTL,Readrest,Readsgn,Readwgt,RESIMIndex,RGESIMIndex,SGSIIndex,SmithIndex,Stan,TallisIndex,TGESIMIndex,TGSIIndex,TraitsSelect)

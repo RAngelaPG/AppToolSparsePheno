@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Solve the linear system Ax = b using conjugate gradient</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for solveCG {rfunctions}"><tr><td>solveCG {rfunctions}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Solve the linear system Ax = b using conjugate gradient</h2>
+
+<h3>Description</h3>
+
+<p>Solve the linear system Ax = b using conjugate gradient
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+solveCG(A, b, maxit = 500L, tol = 1e-05, preconditioner = c("none",
+  "incompleteLU", "scaling"))
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p>square matrix input</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>numeric vector.</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>integer. Maximum number of iterations</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>tolerance level</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>list
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n &lt;- 2000
+p &lt;- 10
+lambda &lt;- 0.1
+
+set.seed(100)
+x &lt;- matrix(rnorm(n * p), ncol = p)
+y &lt;- x %*% rnorm(p) + rnorm(p)
+b &lt;- y
+A &lt;- tcrossprod(x) + lambda * diag(n)
+
+system.time(alpha.true &lt;- solve(A, b))
+system.time(alpha.cg &lt;- solveCG(A, b))
+
+max(abs(alpha.cg$x - alpha.true))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rfunctions</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

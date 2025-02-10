@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute The Moore-Penrose generalized inverse of a matrix</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for geninv {rfunctions}"><tr><td>geninv {rfunctions}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute The Moore-Penrose generalized inverse of a matrix</h2>
+
+<h3>Description</h3>
+
+<p>Compute The Moore-Penrose generalized inverse of a matrix
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+geninv(A)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p>matrix or CsparseMatrix</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>The pseudoinverse of matrix A.
+</p>
+
+
+<h3>References</h3>
+
+<p>Courrieu (2005) Fast Computation of Moore-Penrose Inverse Matrices, http://arxiv.org/ftp/arxiv/papers/0804/0804.4809.pdf 
+Neural Information Processing - Letters and Reviews, Vol. 8(2), Aug. 2005
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n &lt;- 1000
+p &lt;- 500
+
+x &lt;- matrix(rnorm(n * (p - 1)), n, p-1)
+x &lt;- cbind(x, rowMeans(x))
+
+## compute X'X
+xpx &lt;- crossprodcpp(x)
+
+## compute generalized inverse of X'X
+inv &lt;- geninv(xpx)
+
+## check if we have computed a generalized inverse
+all.equal(xpx, xpx %*% inv %*% xpx)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rfunctions</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

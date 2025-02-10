@@ -1,0 +1,22 @@
+add                     add b to a
+add-methods             ~~ Methods for Function 'add' ~~
+boost.pnorm             distribution function
+cgls                    Solve the linear system (A'A + lambda * I)x =
+                        Ab using cgls
+crossprodChunk          Compute X'X in chunks
+crossprodcpp            Compute X'X or X'WX where W is diagonal weight
+                        matrix
+geninv                  Compute The Moore-Penrose generalized inverse
+                        of a matrix
+gklBidiag               Compute Largest Singular Value of Matrix x
+lsmr                    Solve the linear system A'Ax = Ab using lsmr
+multivarNorm            distribution function
+rfunctions-package      A set of R functions that I find useful
+runParallel             Initialize parallel workers
+simSparseMatrix         Simulate a matrix with very few nonzero entries
+sliced.crossprod        Compute X[,indices]'y
+solveCG                 Solve the linear system Ax = b using conjugate
+                        gradient
+stargazer_lme4          stargazer function for lme4 with random effects
+subtract                subtract b from a
+subtract-methods        Methods for Function 'subtract'

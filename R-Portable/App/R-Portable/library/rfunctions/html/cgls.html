@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Solve the linear system (A'A + lambda * I)x = Ab using cgls</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for cgls {rfunctions}"><tr><td>cgls {rfunctions}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Solve the linear system (A'A + lambda * I)x = Ab using cgls</h2>
+
+<h3>Description</h3>
+
+<p>Solve the linear system (A'A + lambda * I)x = Ab using cgls
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+cgls(A, b, lambda = 0, maxit = 50L, tol = 1e-05, init = if
+  (is.null(dim(b))) {     numeric(length(b)) } else {     array(0, dim = dim(b))
+  })
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>A</code></td>
+<td>
+<p>matrix or CsparseMatrix input</p>
+</td></tr>
+<tr valign="top"><td><code>b</code></td>
+<td>
+<p>numeric vector or numeric matrix (corresponding to multiple right-hand sides).</p>
+</td></tr>
+<tr valign="top"><td><code>lambda</code></td>
+<td>
+<p>numeric positive scalar for ridge penalty</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>integer. Maximum number of iterations</p>
+</td></tr>
+<tr valign="top"><td><code>tol</code></td>
+<td>
+<p>tolerance level</p>
+</td></tr>
+<tr valign="top"><td><code>init</code></td>
+<td>
+<p>initialization of estimate</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>list
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n &lt;- 10000
+p &lt;- 100
+
+set.seed(100)
+x &lt;- simSparseMatrix(0.8, boolean = FALSE, dim = c(n, p)) 
+b &lt;- as.vector(x %*% rnorm(p) + rnorm(n))
+
+A &lt;- crossprod(x)
+xtb &lt;- as.vector(crossprod(x, b))
+
+system.time( alpha.true &lt;- solve(A, b) )
+system.time( alpha.cgls &lt;- cgls(x, b) )
+
+max(abs(alpha.cgls$x - alpha.true))
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rfunctions</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

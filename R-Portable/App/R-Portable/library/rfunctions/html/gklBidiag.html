@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Compute Largest Singular Value of Matrix x</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for gklBidiag {rfunctions}"><tr><td>gklBidiag {rfunctions}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Compute Largest Singular Value of Matrix x</h2>
+
+<h3>Description</h3>
+
+<p>Compute Largest Singular Value of Matrix x
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+gklBidiag(x, v, maxit, reorthog = 0, upper.bound.prob = NULL)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>x</code></td>
+<td>
+<p>matrix input</p>
+</td></tr>
+<tr valign="top"><td><code>v</code></td>
+<td>
+<p>numeric vector. Initialize GKL bidiagonalization with random vector on unit sphere</p>
+</td></tr>
+<tr valign="top"><td><code>maxit</code></td>
+<td>
+<p>integer. Maximum number of Lanczos iterations</p>
+</td></tr>
+<tr valign="top"><td><code>reorthog</code></td>
+<td>
+<p>Takes values in 0:2. 0 for no reorthogonalization, 1 for reorthogonalization of 
+V vectors (slower, more accurate), 2 for reorthogonalization of V and U vectors (slowest and most 
+memory, most accurate. Not implemented yet)</p>
+</td></tr>
+<tr valign="top"><td><code>upper.bound.prob</code></td>
+<td>
+<p>upper bound probability for the largest singular value</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>list
+</p>
+
+
+<h3>References</h3>
+
+<p>Hochstenbach (2013) Probabilistic upper bounds for the matrix two-norm, http://link.springer.com/article/10.1007/s10915-013-9716-x 
+Journal of Scientific Computing, Vol. 57(3), Dec. 2013
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+n.obs &lt;- 1e5
+n.vars &lt;- 150
+
+x &lt;- matrix(rnorm(n.obs * n.vars), n.obs, n.vars)
+
+## compute largest singular value of x
+lanczos &lt;- gklBidiag(x, runif(ncol(x)), 10L, reorth = 0, upper.bound.prob = 0.99)
+str(lanczos)
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>rfunctions</em> version 0.1 <a href="00Index.html">Index</a>]</div>
+</body></html>

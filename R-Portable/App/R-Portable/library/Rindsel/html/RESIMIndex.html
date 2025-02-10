@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Restrictive eigen selection index method</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RESIMIndex {Rindsel}"><tr><td>RESIMIndex {Rindsel}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Restrictive eigen selection index method</h2>
+
+<h3>Description</h3>
+
+<p>Funtion for restrictive eigen selection index method
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+RESIMIndex(file.dat = NULL, weights = NULL, selval = 5, design = "lattice", 
+corr = FALSE, out = "out.txt", outcsv = "out.csv", rawdata = TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file.dat</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format which contains the traits (columns) for entries (rows).</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format whose columns are: names of the traits, indicator variable for selected traits, economic weights or signs of the traits and indicator variable for restricted traits. If no name of the file is given, the file is choosen interactively.</p>
+</td></tr>
+<tr valign="top"><td><code>selval</code></td>
+<td>
+<p>Percent of selected genotypes (5, 10, 20). Default is selval=5.</p>
+</td></tr> 
+<tr valign="top"><td><code>design</code></td>
+<td>
+<p>Field design (&quot;lattice&quot;, &quot;rcb&quot;). Default is design=&quot;lattice&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>corr</code></td>
+<td>
+<p>Selection index is based on variances-covariances matrix (FALSE) or correlation matrix (TRUE). Default is corr=FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>out</code></td>
+<td>
+<p>Output file name. Default is out=&quot;out.txt&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>outcsv</code></td>
+<td>
+<p>Output file in format *.csv. Default is outcsv=&quot;outcsv.csv&quot;. The file named &quot;alloutcsv.csv&quot; is generated, which contains the values of the traits and the RESIM selection index for all the individuals.</p>
+</td></tr>
+<tr valign="top"><td><code>rawdata</code></td>
+<td>
+<p>If genotypic and photypic variances are already calculated, then it can be used to calculate directly the index by setting rawdat=TRUE. Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p><b>Resim Selection Index (Eigen Restrictive Selection Index 
+method)</b> 
+</p>
+<p>RESIM is a generalization of ESIM to the case in which are incorporated 
+restrictions on <i>Y=&beta;'p</i> , the procedure for 
+set the <i>&beta;</i> is, therefore, very similar to ESIM 
+and is based on IS restricted Kempthorne and Nordskog (1959). 
+So, suppose you have <i>q</i> variables and phenotypic 
+want to improve the means of <i>q-r</i> of them while <i>r</i> of them 
+average remain unchanged, the index <i>Y=&beta;'p</i> 
+should maximize <i>&rho;_{YZ}^2</i> under conditions tale. Again, the 
+restrictions are introduced by the matrix <i>W</i> of 0s and 
+1s, where 1s indicate that the mean values of the variables 
+Phenotypic remain unchanged, while indicating 0s 
+average changes in phenotypic variables, such that <i>W'G &beta;=0</i> . Let <i>C=</i> GW, 
+since <i> &rho;_{YZ} </i> is invariant under changes of scale can be assumed 
+which <i>&beta;'*P*&beta;=1</i> and <i>&theta;'G&theta;=1</i> , so <i> &rho;_{YZ}^2 </i> be maximized under the constraints 
+<i>&beta;'C=0</i> , <i>&beta;'*P*&beta;=1</i> and 
+<i>&theta;'G&theta;=1</i> . Let <i> &mu; </i> , <i> &omega; </i> and <i>v'=[v_1 ... v_r]</i> Lagrange multipliers. It should 
+maximized 
+</p>
+<p style="text-align: center;"><i>&Phi; = (&theta; '_M*K*&beta;_M-1 )^2-&mu;(&beta; '_M*T*&beta;_M-1) -&omega;(&theta; '_M*K*&theta;_M-1 )-v'C'&beta;</i></p>
+ 
+<p>In deriving <i> &Phi; </i> over <i>&beta;</i> , <i>&theta;</i> , <i> &mu; </i> , <i> &omega; </i> , and <i>v'=[v_1 ... v_r]</i> , 
+Ceron-Rojas et al. (2008a) showed that 
+</p>
+<p style="text-align: center;"><i>(Q-&omega; I)&beta;=0</i></p>
+  
+<p>where now <i>Q=[I-P^{-1}C(C'P^{-1}C)^{-1}P^{-1}G]</i> . Thus, RESIM, the value that maximizes <i> &rho;
+_{YZ}^2 </i> under the constraint <i>&beta;'P &beta; = 1</i> , <i>&theta;'G &theta; = 1</i> and <i>&beta;'C=0</i> is the 
+first eigenvalue ( <i> &omega;) </i> of the matrix <i>Q</i> , and the vector 
+lets build resim <i>Y=&beta;'p</i> (with maximum 
+correlation with <i>Z=&theta;'g</i> is the first eigenvector 
+( <i>&beta;</i> matrix <i>Q</i>
+</p>
+
+
+<h3>Value</h3>
+
+<p>The RESIM selection index and an output file which contains the selected entries and other useful information.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#library(Rindsel)
+#data(TRAIT_GSI)
+#data(WEIGHTS_GSI)
+#RESIMIndex(file.dat = TRAIT_GSI,weights=WEIGHTS_GSI)
+#T
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Rindsel</em> version 1.3 <a href="00Index.html">Index</a>]</div>
+</body></html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Restrictive Genomic Eiegen Selection Index Method (RGESIM).</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for RGESIMIndex {Rindsel}"><tr><td>RGESIMIndex {Rindsel}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Restrictive Genomic  Eiegen Selection Index Method (RGESIM).</h2>
+
+<h3>Description</h3>
+
+<p>This function estimates the selection index by the Restrictive Genomic  Eiegen Selection Index Method (RGESIM).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+RGESIMIndex (file.dat=NULL,weights=NULL,selval=5,design="lattice",corr=FALSE,
+method=c("vanraden","classic"),out="out.txt",outcsv="out.csv",rawdata=TRUE)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>file.dat</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format which contains the traits (columns) for entries (rows)</p>
+</td></tr>
+<tr valign="top"><td><code>weights</code></td>
+<td>
+<p>Text file in comma separated values (*.csv) format whose columns are: names of the traits, indicator variable for selected traits, economic weights or signs of the traits and indicator variable for restricted traits. If no name of the file is given, the file is choosen interactively.</p>
+</td></tr>
+<tr valign="top"><td><code>selval</code></td>
+<td>
+<p>Percent of selected genotypes (5, 10, 20). Default is selval=5.</p>
+</td></tr> 
+<tr valign="top"><td><code>design</code></td>
+<td>
+<p>Field design (&quot;lattice&quot;, &quot;rcb&quot;). Default is design=&quot;lattice&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>corr</code></td>
+<td>
+<p>Selection index is based on variances-covariances matrix (FALSE) or correlation matrix (TRUE). Default is corr=FALSE.</p>
+</td></tr>
+<tr valign="top"><td><code>method</code></td>
+<td>
+<p>Method for the computation of GEBV variance (&quot;vanraden&quot;,&quot;classic&quot;)</p>
+</td></tr>
+<tr valign="top"><td><code>out</code></td>
+<td>
+<p>Output file name. Default is out=&quot;out.txt&quot;.</p>
+</td></tr>
+<tr valign="top"><td><code>outcsv</code></td>
+<td>
+<p>Output file in format *.csv. Default is outcsv=&quot;outcsv.csv&quot;. The file named &quot;alloutcsv.csv&quot; is generated, which contains the values of the traits and the ESIM selection index for all the individuals.</p>
+</td></tr>
+<tr valign="top"><td><code>rawdata</code></td>
+<td>
+<p>If genotypic and phenotypic variances are already calculated, then it can be used to calculate directly the index by setting rawdat=TRUE. Default is FALSE.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>references at <a href="0Rindsel-package.html">Rindsel-package</a>
+</p>
+
+
+<h3>Value</h3>
+
+<p>The RGESIMIndex selection index and an output file which contains the selected entries and other useful information.
+</p>
+
+
+<h3>References</h3>
+
+<p>Cerón-Rojas, J.J., J. Sahagún-Castellanos, F. Castillo-González, and A. Santacruz-Varela, 2006. A selection index method based on eigenanalysis. Crop Science 46: 1711-1721.
+Cerón-Rojas, J.J., J. Sahagún-Castellanos, F. Castillo-González, A. Santacruz-Varela and J. Crossa, 2008. A restricted selection index method based on eigenanalysis. Journal of Agricultural, Biological, and Environmental Statistics 13: 449-457
+</p>
+
+
+<h3>Examples</h3>
+
+<pre>
+#data(MARKERS_GSI)
+#data(TRAIT_GSI)
+#data(WEIGHTS_GSI)
+#RGESIMIndex(file.dat = TRAIT_GSI,weights=WEIGHTS_GSI,markers=MARKERS_GSI)
+#T
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>Rindsel</em> version 1.3 <a href="00Index.html">Index</a>]</div>
+</body></html>
